@@ -39,6 +39,7 @@ variable "create_resource_group" {
 variable "resource_group_name" {
   description = "Name of the Resource Group."
   type        = string
+  default = "mytestrg"
 }
 
 variable "enable_zones" {
@@ -51,6 +52,7 @@ variable "enable_zones" {
 
 ### VNET
 variable "vnets" {
+  default = true
   description = <<-EOF
   A map defining VNETs.
   

@@ -1,5 +1,5 @@
 # --- GENERAL --- #
-location            = "North Europe"
+location            = "eastus"
 resource_group_name = "transit-vnet-dedicated"
 name_prefix         = "example-"
 tags = {

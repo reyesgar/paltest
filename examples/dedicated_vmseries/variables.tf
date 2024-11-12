@@ -8,6 +8,7 @@ variable "tags" {
 variable "location" {
   description = "The Azure region to use."
   type        = string
+  default = "eastus"
 }
 
 variable "name_prefix" {

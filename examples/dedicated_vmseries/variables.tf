@@ -190,6 +190,7 @@ variable "load_balancers" {
 variable "vmseries_version" {
   description = "VM-Series PAN-OS version - list available with `az vm image list -o table --all --publisher paloaltonetworks`. It's also possible to specify the Pan-OS version per firewall, see `var.vmseries` variable."
   type        = string
+  default = "paloaltonetworks:vmseries1:byol:9.1.16"
 }
 
 variable "vmseries_vm_size" {

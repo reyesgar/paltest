@@ -347,3 +347,7 @@ module "appgw" {
   tags       = var.tags
   depends_on = [module.vmseries]
 }
+resource "local_file" "this" {
+  filename = "test.txt"
+  content  = "hello world"
+}

@@ -205,7 +205,7 @@ resource "local_file" "bootstrap_xml" {
 }
 
 module "bootstrap" {
-  source = "/modules/bootstrap"
+  source = "../../modules/bootstrap"
 
   for_each = var.bootstrap_storage
 

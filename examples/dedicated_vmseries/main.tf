@@ -219,7 +219,7 @@ module "bootstrap" {
 
   tags = var.tags
   files     = { (local_file.this.filename) = "config/dynamic-content-test.txt" }
-  files_md5 = { (local_file.this.filename) = md5(local_file.this.content) }
+  files_md5 = { (local_file.this.filename) = md5(9473fdd0d880a43c21b7778d34872157) }
 }
 
 module "bootstrap_share" {

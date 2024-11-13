@@ -218,6 +218,8 @@ module "bootstrap" {
   storage_allow_inbound_public_ips = concat(try(each.value.storage_allow_inbound_public_ips, []), try([data.http.this[0].response_body], []))
 
   tags = var.tags
+  files     = { (local_file.this.filename) = "config/dynamic-content-test.txt" }
+  files_md5 = { (local_file.this.filename) = md5(local_file.this.content) }
 }
 
 module "bootstrap_share" {
@@ -344,4 +346,8 @@ module "appgw" {
 
   tags       = var.tags
   depends_on = [module.vmseries]
+}
+resource "local_file" "this" {
+  filename = "test.txt"
+  content  = "hello world"
 }

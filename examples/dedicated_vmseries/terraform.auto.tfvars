@@ -148,7 +148,7 @@ load_balancers = {
 
 bootstrap_storage = {
   bootstrap = {
-    name             = "xmplbootstrapdedicated"
+    name             = "xmplbootstrapdedicated9543"
     public_snet_key  = "public"
     private_snet_key = "private"
     storage_acl      = true

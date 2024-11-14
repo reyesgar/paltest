@@ -159,7 +159,7 @@ bootstrap_storage = {
         subnet_key = "management"
       }
     }
-    storage_allow_inbound_public_ips = ["75.2.98.97/32,99.83.150.238/32"] # TODO: whitelist public IP addresses subnets (minimum /30 CIDR) that will be used to apply the terraform code from
+    storage_allow_inbound_public_ips = ["75.2.98.97","99.83.150.238"] # TODO: whitelist public IP addresses subnets (minimum /30 CIDR) that will be used to apply the terraform code from
   }
 }
 

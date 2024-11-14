@@ -163,7 +163,7 @@ bootstrap_storage = {
   }
 }
 
-vmseries_version = "10.2.3"
+vmseries_version = "11.2.0"
 vmseries_vm_size = "Standard_DS3_v2"
 vmseries = {
   "fw-in-1" = {

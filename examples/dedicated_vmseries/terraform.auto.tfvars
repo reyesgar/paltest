@@ -164,7 +164,7 @@ bootstrap_storage = {
 }
 
 vmseries_version = "11.2.0"
-vmseries_vm_size = "Standard_DS3_v2"
+vmseries_vm_size = "Standard_DS1_v2"
 vmseries = {
   "fw-in-1" = {
     name                 = "inbound-firewall-01"

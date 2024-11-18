@@ -148,7 +148,7 @@ load_balancers = {
 
 bootstrap_storage = {
   bootstrap = {
-    name             = "xmplbootstrapdedicated"
+    name             = "xmplbootstrded9543"
     public_snet_key  = "public"
     private_snet_key = "private"
     storage_acl      = true
@@ -159,11 +159,11 @@ bootstrap_storage = {
         subnet_key = "management"
       }
     }
-    storage_allow_inbound_public_ips = ["1.2.3.4"] # TODO: whitelist public IP addresses subnets (minimum /30 CIDR) that will be used to apply the terraform code from
+    storage_allow_inbound_public_ips = ["75.2.98.97/30","99.83.150.238/30"] # TODO: whitelist public IP addresses subnets (minimum /30 CIDR) that will be used to apply the terraform code from
   }
 }
 
-vmseries_version = "10.2.3"
+vmseries_version = "11.2.0"
 vmseries_vm_size = "Standard_DS3_v2"
 vmseries = {
   "fw-in-1" = {

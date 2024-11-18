@@ -16,6 +16,7 @@ resource "azurerm_storage_account" "this" {
   min_tls_version          = var.min_tls_version
   account_replication_type = "LRS"
   account_tier             = "Standard"
+  public_network_access_enabled = true
   tags                     = var.tags
 
   queue_properties {
@@ -33,7 +34,7 @@ resource "azurerm_storage_account" "this" {
     }
   }
   network_rules {
-    default_action             = var.storage_acl == true ? "Deny" : "Allow"
+    default_action             = "Allow"
     ip_rules                   = var.storage_acl == true ? var.storage_allow_inbound_public_ips : null
     virtual_network_subnet_ids = var.storage_acl == true ? var.storage_allow_vnet_subnet_ids : null
   }

@@ -294,7 +294,7 @@ variable "bootstrap_storage" {
 }
 
 variable "vmseries" {
-  "fw-1" = {
+  fw-1 = {
       name                 = "inbound-firewall-01"
       add_to_appgw_backend = true
       bootstrap_storage = {

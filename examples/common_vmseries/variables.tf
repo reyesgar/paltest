@@ -351,9 +351,8 @@ default     = {
           create_pip        = true
         }
       ]
+  }
 }
-  type        = any
-    }
  
 
 # Application Gateway

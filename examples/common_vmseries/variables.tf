@@ -381,5 +381,7 @@ variable "appgws" {
   - `ssl_profiles` : (optional) a map of SSL profiles that can be later on referenced in HTTPS listeners by providing a name of the profile in the `ssl_profile_name` property
 
   EOF
-  default     = {}
+  default     = {
+
+  }
 }

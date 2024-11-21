@@ -294,186 +294,117 @@ variable "bootstrap_storage" {
 }
 
 variable "vmseries" {
-  description = <<-EOF
-  Map of virtual machines to create to run VM-Series - inbound firewalls. Following properties are supported:
-
-  - `name` : name of the VMSeries virtual machine.
-  - `vm_size` : size of the VMSeries virtual machine, when specified overrides `var.vmseries_vm_size`.
-  - `version` : PanOS version, when specified overrides `var.vmseries_version`.
-  - `vnet_key` : a key of a VNET defined in the `var.vnets` map. This value will be used during network interfaces creation.
-  - `add_to_appgw_backend` : bool, `false` by default, set this to `true` to add this backend to an Application Gateway.
-  - `avzone`: the Azure Availability Zone identifier ("1", "2", "3"). Default is "1".
-  - `availability_set_key` : a key of an Availability Set as declared in `availability_sets` property. Specify when HA is required but cannot go for zonal deployment.
-
-  - `bootstrap_options` : string, optional bootstrap options to pass to VM-Series instances, semicolon separated values. When defined this precedence over `bootstrap_storage`
-  - `bootstrap_storage` : a map containing definition of the bootstrap package content. When present triggers a creation of a File Share in an existing Storage Account, following properties supported:
-    - `name` : a name of a key in `var.bootstrap_storage` variable defining a Storage Account
-    - `static_files` : a map where key is a path to a file, value is the location of the file in the bootstrap package (file share). All files in this map are copied 1:1 to the bootstrap package
-    - `template_bootstrap_xml` : path to the `bootstrap.xml` template. When defined it will trigger creation of the `bootstrap.xml` file and the file will be uploaded to the storage account. This is a simple `day 0` configuration file that should set up only basic networking. Specifying this property forces additional properties that are required to properly template the file. They can be defined per each VM or globally for all VMs (in this case place them in the bootstrap storage definition). The properties are listed below.
-    - `public_snet_key` : required, name of the key in `var.vnets` map defining a public subnet, required to calculate the Azure router IP for the public subnet.
-    - `private_snet_key` : required, name of the key in `var.vnets` map defining a private subnet, required to calculate the Azure router IP for the private subnet.
-    - `intranet_cidr` : optional, CIDR of the private networks required to build a general static route to resources protected by this firewall, when skipped the 1st CIDR from `vnet_name` address space will be used.
-    - `ai_update_interval` : if Application Insights are used this property can override the default metrics update interval (in minutes).
-
-  - `interfaces` : configuration of all NICs assigned to a VM. A list of maps, each map is a NIC definition. Notice that the order DOES matter. NICs are attached to VMs in Azure in the order they are defined in this list, therefore the management interface has to be defined first. Following properties are available:
-    - `name`: string that will form the NIC name
-    - `subnet_key` : (string) a key of a subnet as defined in `var.vnets`
-    - `create_pip` : (boolean) flag to create Public IP for an interface, defaults to `false`
-    - `public_ip_name` : (string) when `create_pip` is set to `false` a name of a Public IP resource that should be associated with this Network Interface
-    - `public_ip_resource_group` : (string) when associating an existing Public IP resource, name of the Resource Group the IP is placed in, defaults to the `var.resource_group_name`
-    - `load_balancer_key` : (string) key of a Load Balancer defined in the `var.loadbalancers`  variable, defaults to `null`
-    - `private_ip_address` : (string) a static IP address that should be assigned to an interface, defaults to `null` (in that case DHCP is used)
-
-  Example:
-  ```
-  {
-    "fw01" = {
-      name = "firewall01"
+  "fw-in-1" = {
+      name                 = "inbound-firewall-01"
+      add_to_appgw_backend = true
       bootstrap_storage = {
-        name                   = "storageaccountname"
+        name                   = "bootstrap"
         static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
-        template_bootstrap_xml = "templates/bootstrap_common.tmpl"
-        public_snet_key        = "public"
-        private_snet_key       = "private"
+        template_bootstrap_xml = "templates/bootstrap_inbound.tmpl"
       }
+      vnet_key = "transit"
       avzone   = 1
-      vnet_key = "trust"
       interfaces = [
         {
-          name               = "mgmt"
-          subnet_key         = "mgmt"
-          create_pip         = true
-          private_ip_address = "10.0.0.1"
+          name       = "mgmt"
+          subnet_key = "management"
+          create_pip = true
         },
         {
-          name                 = "trust"
-          subnet_key           = "private"
-          private_ip_address   = "10.0.1.1"
-          load_balancer_key    = "private_lb"
+          name       = "private"
+          subnet_key = "private"
         },
         {
-          name                 = "untrust"
-          subnet_key           = "public"
-          private_ip_address   = "10.0.2.1"
-          load_balancer_key    = "public_lb"
-          public_ip_name       = "existing_public_ip"
+          name              = "public"
+          subnet_key        = "public"
+          load_balancer_key = "public"
+          create_pip        = true
+        }
+      ]
+    }
+    "fw-in-2" = {
+      name                 = "inbound-firewall-02"
+      add_to_appgw_backend = true
+      bootstrap_storage = {
+        name                   = "bootstrap"
+        static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
+        template_bootstrap_xml = "templates/bootstrap_inbound.tmpl"
+      }
+      vnet_key = "transit"
+      avzone   = 2
+      interfaces = [
+        {
+          name       = "mgmt"
+          subnet_key = "management"
+          create_pip = true
+        },
+        {
+          name       = "private"
+          subnet_key = "private"
+        },
+        {
+          name              = "public"
+          subnet_key        = "public"
+          load_balancer_key = "public"
+          create_pip        = true
+        }
+      ]
+    }
+    "fw-obew-1" = {
+      name = "obew-firewall-01"
+      bootstrap_storage = {
+        name                   = "bootstrap"
+        static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
+        template_bootstrap_xml = "templates/bootstrap_obew.tmpl"
+      }
+      vnet_key = "transit"
+      avzone   = 1
+      interfaces = [
+        {
+          name       = "mgmt"
+          subnet_key = "management"
+          create_pip = true
+        },
+        {
+          name              = "private"
+          subnet_key        = "private"
+          load_balancer_key = "private"
+        },
+        {
+          name       = "public"
+          subnet_key = "public"
+          create_pip = true
+        }
+      ]
+    }
+    "fw-obew-2" = {
+      name = "obew-firewall-02"
+      bootstrap_storage = {
+        name                   = "bootstrap"
+        static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
+        template_bootstrap_xml = "templates/bootstrap_obew.tmpl"
+      }
+      vnet_key = "transit"
+      avzone   = 2
+      interfaces = [
+        {
+          name       = "mgmt"
+          subnet_key = "management"
+          create_pip = true
+        },
+        {
+          name              = "private"
+          subnet_key        = "private"
+          load_balancer_key = "private"
+        },
+        {
+          name       = "public"
+          subnet_key = "public"
+          create_pip = true
         }
       ]
     }
   }
-  ```
-  EOF
-"fw-in-1" = {
-    name                 = "inbound-firewall-01"
-    add_to_appgw_backend = true
-    bootstrap_storage = {
-      name                   = "bootstrap"
-      static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
-      template_bootstrap_xml = "templates/bootstrap_inbound.tmpl"
-    }
-    vnet_key = "transit"
-    avzone   = 1
-    interfaces = [
-      {
-        name       = "mgmt"
-        subnet_key = "management"
-        create_pip = true
-      },
-      {
-        name       = "private"
-        subnet_key = "private"
-      },
-      {
-        name              = "public"
-        subnet_key        = "public"
-        load_balancer_key = "public"
-        create_pip        = true
-      }
-    ]
-  }
-  "fw-in-2" = {
-    name                 = "inbound-firewall-02"
-    add_to_appgw_backend = true
-    bootstrap_storage = {
-      name                   = "bootstrap"
-      static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
-      template_bootstrap_xml = "templates/bootstrap_inbound.tmpl"
-    }
-    vnet_key = "transit"
-    avzone   = 2
-    interfaces = [
-      {
-        name       = "mgmt"
-        subnet_key = "management"
-        create_pip = true
-      },
-      {
-        name       = "private"
-        subnet_key = "private"
-      },
-      {
-        name              = "public"
-        subnet_key        = "public"
-        load_balancer_key = "public"
-        create_pip        = true
-      }
-    ]
-  }
-  "fw-obew-1" = {
-    name = "obew-firewall-01"
-    bootstrap_storage = {
-      name                   = "bootstrap"
-      static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
-      template_bootstrap_xml = "templates/bootstrap_obew.tmpl"
-    }
-    vnet_key = "transit"
-    avzone   = 1
-    interfaces = [
-      {
-        name       = "mgmt"
-        subnet_key = "management"
-        create_pip = true
-      },
-      {
-        name              = "private"
-        subnet_key        = "private"
-        load_balancer_key = "private"
-      },
-      {
-        name       = "public"
-        subnet_key = "public"
-        create_pip = true
-      }
-    ]
-  }
-  "fw-obew-2" = {
-    name = "obew-firewall-02"
-    bootstrap_storage = {
-      name                   = "bootstrap"
-      static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
-      template_bootstrap_xml = "templates/bootstrap_obew.tmpl"
-    }
-    vnet_key = "transit"
-    avzone   = 2
-    interfaces = [
-      {
-        name       = "mgmt"
-        subnet_key = "management"
-        create_pip = true
-      },
-      {
-        name              = "private"
-        subnet_key        = "private"
-        load_balancer_key = "private"
-      },
-      {
-        name       = "public"
-        subnet_key = "public"
-        create_pip = true
-      }
-    ]
-  }
-}
 
 # Application Gateway
 variable "appgws" {

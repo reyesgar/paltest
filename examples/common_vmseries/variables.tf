@@ -8,6 +8,7 @@ variable "tags" {
 variable "location" {
   description = "The Azure region to use."
   type        = string
+  default = "eastus"
 }
 
 variable "name_prefix" {
@@ -38,6 +39,7 @@ variable "create_resource_group" {
 variable "resource_group_name" {
   description = "Name of the Resource Group."
   type        = string
+  default = "mytestrg"
 }
 
 variable "enable_zones" {

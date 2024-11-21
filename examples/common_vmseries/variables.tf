@@ -349,6 +349,8 @@ variable "vmseries" {
           create_pip        = true
         }
       ]
+  default     = {}
+  type        = any
     }
  
 

@@ -189,11 +189,13 @@ variable "load_balancers" {
 variable "vmseries_version" {
   description = "VM-Series PAN-OS version - list available with `az vm image list -o table --all --publisher paloaltonetworks`. It's also possible to specify the Pan-OS version per firewall, see `var.vmseries` variable."
   type        = string
+  default     = "11.2.0"
 }
 
 variable "vmseries_vm_size" {
   description = "Azure VM size (type) to be created. Consult the *VM-Series Deployment Guide* as only a few selected sizes are supported. It's also possible to specify the the VM size per firewall, see `var.vmseries` variable."
   type        = string
+  default     = "Standard_DS3_v2"
 }
 
 variable "vmseries_sku" {

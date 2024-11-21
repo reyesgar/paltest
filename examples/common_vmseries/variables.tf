@@ -25,6 +25,7 @@ variable "name_prefix" {
   EOF
   default     = ""
   type        = string
+  default     = "testrun-"
 }
 
 variable "create_resource_group" {

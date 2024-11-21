@@ -295,7 +295,8 @@ variable "bootstrap_storage" {
 }
 
 variable "vmseries" {
-  "fw-1" = {
+default     = {
+  fw-1 = {
       name                 = "inbound-firewall-01"
       add_to_appgw_backend = true
       bootstrap_storage = {
@@ -323,7 +324,7 @@ variable "vmseries" {
         }
       ]
     }
-    "fw-2" = {
+    fw-2 = {
       name                 = "inbound-firewall-02"
       add_to_appgw_backend = true
       bootstrap_storage = {
@@ -350,7 +351,7 @@ variable "vmseries" {
           create_pip        = true
         }
       ]
-  default     = {}
+}
   type        = any
     }
  

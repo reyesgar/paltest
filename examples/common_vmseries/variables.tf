@@ -404,7 +404,7 @@ variable "vmseries" {
         }
       ]
     }
-  }
+  
 
 # Application Gateway
 variable "appgws" {

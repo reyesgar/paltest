@@ -363,6 +363,116 @@ variable "vmseries" {
   }
   ```
   EOF
+"fw-in-1" = {
+    name                 = "inbound-firewall-01"
+    add_to_appgw_backend = true
+    bootstrap_storage = {
+      name                   = "bootstrap"
+      static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
+      template_bootstrap_xml = "templates/bootstrap_inbound.tmpl"
+    }
+    vnet_key = "transit"
+    avzone   = 1
+    interfaces = [
+      {
+        name       = "mgmt"
+        subnet_key = "management"
+        create_pip = true
+      },
+      {
+        name       = "private"
+        subnet_key = "private"
+      },
+      {
+        name              = "public"
+        subnet_key        = "public"
+        load_balancer_key = "public"
+        create_pip        = true
+      }
+    ]
+  }
+  "fw-in-2" = {
+    name                 = "inbound-firewall-02"
+    add_to_appgw_backend = true
+    bootstrap_storage = {
+      name                   = "bootstrap"
+      static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
+      template_bootstrap_xml = "templates/bootstrap_inbound.tmpl"
+    }
+    vnet_key = "transit"
+    avzone   = 2
+    interfaces = [
+      {
+        name       = "mgmt"
+        subnet_key = "management"
+        create_pip = true
+      },
+      {
+        name       = "private"
+        subnet_key = "private"
+      },
+      {
+        name              = "public"
+        subnet_key        = "public"
+        load_balancer_key = "public"
+        create_pip        = true
+      }
+    ]
+  }
+  "fw-obew-1" = {
+    name = "obew-firewall-01"
+    bootstrap_storage = {
+      name                   = "bootstrap"
+      static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
+      template_bootstrap_xml = "templates/bootstrap_obew.tmpl"
+    }
+    vnet_key = "transit"
+    avzone   = 1
+    interfaces = [
+      {
+        name       = "mgmt"
+        subnet_key = "management"
+        create_pip = true
+      },
+      {
+        name              = "private"
+        subnet_key        = "private"
+        load_balancer_key = "private"
+      },
+      {
+        name       = "public"
+        subnet_key = "public"
+        create_pip = true
+      }
+    ]
+  }
+  "fw-obew-2" = {
+    name = "obew-firewall-02"
+    bootstrap_storage = {
+      name                   = "bootstrap"
+      static_files           = { "files/init-cfg.txt" = "config/init-cfg.txt" }
+      template_bootstrap_xml = "templates/bootstrap_obew.tmpl"
+    }
+    vnet_key = "transit"
+    avzone   = 2
+    interfaces = [
+      {
+        name       = "mgmt"
+        subnet_key = "management"
+        create_pip = true
+      },
+      {
+        name              = "private"
+        subnet_key        = "private"
+        load_balancer_key = "private"
+      },
+      {
+        name       = "public"
+        subnet_key = "public"
+        create_pip = true
+      }
+    ]
+  }
 }
 
 # Application Gateway

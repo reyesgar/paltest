@@ -352,7 +352,7 @@ default     = {
         }
       ]
   }
-}
+
  
 
 # Application Gateway
@@ -363,4 +363,6 @@ default     = {
           subnet_key = "management"
           zone         = 1
   }
+}
+
 }

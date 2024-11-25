@@ -52,23 +52,30 @@ variable "enable_zones" {
 
 ### VNET
 variable "vnets" {
-  description = <<-EOF
-  A map defining VNETs.
-  
-  For detailed documentation on each property refer to [module documentation](../../modules/vnet/README.md)
+  "transit" = {
+    name          = "transit"
+    address_space = ["10.0.0.0/25"]
+    network_security_groups = {
+      "management" = {
+        name = "mgmt-nsg"
+        rules = {
+          vmseries_mgmt_allow_inbound = {
+            priority                   = 100
+            direction                  = "Inbound"
+            access                     = "Allow"
+            protocol                   = "Tcp"
+            source_address_prefixes    = ["1.2.3.4"] # TODO: whitelist public IP addresses that will be used to manage the appliances
+            source_port_range          = "*"
+            destination_address_prefix = "10.0.0.0/28"
+            destination_port_ranges    = ["22", "443"]
+          }
+        }
+      }
+      "public" = {
+        name = "public-nsg"
+      }
+    }
 
-  - `name` :  A name of a VNET.
-  - `create_virtual_network` : (default: `true`) when set to `true` will create a VNET, `false` will source an existing VNET, in both cases the name of the VNET is specified with `name`
-  - `address_space` : a list of CIDRs for VNET
-  - `resource_group_name` :  (default: current RG) a name of a Resource Group in which the VNET will reside
-
-  - `create_subnets` : (default: `true`) if true, create the Subnets inside the Virtual Network, otherwise use pre-existing subnets
-  - `subnets` : map of Subnets to create
-
-  - `network_security_groups` : map of Network Security Groups to create
-  - `route_tables` : map of Route Tables to create.
-  EOF
-}
 
 variable "natgws" {
   description = <<-EOF

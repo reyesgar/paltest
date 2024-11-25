@@ -52,7 +52,8 @@ variable "enable_zones" {
 
 ### VNET
 variable "vnets" {
-  "transit" = {
+default     = {
+  transit = {
     name          = "transit"
     address_space = ["10.0.0.0/25"]
     network_security_groups = {
@@ -75,7 +76,7 @@ variable "vnets" {
         name = "public-nsg"
       }
     }
-
+}
 
 variable "natgws" {
   description = <<-EOF

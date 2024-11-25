@@ -99,6 +99,7 @@ variable "vnets" {
 } 
 
 }
+}
 
 variable "natgws" {
   description = <<-EOF

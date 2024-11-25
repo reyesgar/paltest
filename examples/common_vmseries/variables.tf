@@ -78,6 +78,9 @@ variable "vnets" {
     }
     }
 } 
+
+}
+
 variable "natgws" {
   description = <<-EOF
   A map defining Nat Gateways. 

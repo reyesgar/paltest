@@ -110,7 +110,15 @@ variable "natgws" {
   type        = any
 }
 
-
+# Application Gateway
+variable "appgws" {
+default     = {
+          name       = "mgmt"
+          vnet_key = "transit"
+          subnet_key = "management"
+          zone         = 1
+  }
+}
 
 ### Load Balancing
 variable "load_balancers" {
@@ -352,17 +360,8 @@ default     = {
         }
       ]
   }
-
+}
  
 
-# Application Gateway
-variable "appgws" {
-default     = {
-          name       = "mgmt"
-          vnet_key = "transit"
-          subnet_key = "management"
-          zone         = 1
-  }
-}
 
-}
+

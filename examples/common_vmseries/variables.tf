@@ -52,32 +52,32 @@ variable "enable_zones" {
 
 ### VNET
 variable "vnets" {
-default     = {
-  transit = {
-    name          = "transit"
-    address_space = ["10.0.0.0/25"]
-    network_security_groups = {
-      "management" = {
-        name = "mgmt-nsg"
-        rules = {
-          vmseries_mgmt_allow_inbound = {
-            priority                   = 100
-            direction                  = "Inbound"
-            access                     = "Allow"
-            protocol                   = "Tcp"
-            source_address_prefixes    = ["1.2.3.4"] # TODO: whitelist public IP addresses that will be used to manage the appliances
-            source_port_range          = "*"
-            destination_address_prefix = "10.0.0.0/28"
-            destination_port_ranges    = ["22", "443"]
-          }
+    default     = {
+    transit = {
+        name          = "transit"
+        address_space = ["10.0.0.0/25"]
+        network_security_groups = {
+        "management" = {
+            name = "mgmt-nsg"
+            rules = {
+            vmseries_mgmt_allow_inbound = {
+                priority                   = 100
+                direction                  = "Inbound"
+                access                     = "Allow"
+                protocol                   = "Tcp"
+                source_address_prefixes    = ["1.2.3.4"] # TODO: whitelist public IP addresses that will be used to manage the appliances
+                source_port_range          = "*"
+                destination_address_prefix = "10.0.0.0/28"
+                destination_port_ranges    = ["22", "443"]
+                }
+            }
         }
-      }
-      "public" = {
-        name = "public-nsg"
-      }
+        "public" = {
+            name = "public-nsg"
+        }
     }
-}
-}
+    }
+} 
 variable "natgws" {
   description = <<-EOF
   A map defining Nat Gateways. 

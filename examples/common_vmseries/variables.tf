@@ -76,6 +76,52 @@ variable "vnets" {
             name = "public-nsg"
         }
     }
+  route_tables = {
+        "management" = {
+          name = "mgmt-rt"
+          routes = {
+            "private_blackhole" = {
+              address_prefix = "10.0.0.16/28"
+              next_hop_type  = "None"
+            }
+            "public_blackhole" = {
+              address_prefix = "10.0.0.32/28"
+              next_hop_type  = "None"
+            }
+          }
+        }
+        "private" = {
+          name = "private-rt"
+          routes = {
+            "default" = {
+              address_prefix         = "0.0.0.0/0"
+              next_hop_type          = "VirtualAppliance"
+              next_hop_in_ip_address = "10.0.0.30"
+            }
+            "mgmt_blackhole" = {
+              address_prefix = "10.0.0.0/28"
+              next_hop_type  = "None"
+            }
+            "public_blackhole" = {
+              address_prefix = "10.0.0.32/28"
+              next_hop_type  = "None"
+            }
+          }
+        }
+        "public" = {
+          name = "public-rt"
+          routes = {
+            "mgmt_blackhole" = {
+              address_prefix = "10.0.0.0/28"
+              next_hop_type  = "None"
+            }
+            "private_blackhole" = {
+              address_prefix = "10.0.0.16/28"
+              next_hop_type  = "None"
+            }
+          }
+        }
+      }
     subnets = {
     "management" = {
         name                            = "mgmt-snet"

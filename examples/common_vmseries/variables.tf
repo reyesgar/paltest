@@ -382,6 +382,9 @@ variable "appgws" {
 
   EOF
   default     = {
-
+          name       = "mgmt"
+          vnet_key = "transit"
+          subnet_key = "management"
+          zone         = 1
   }
 }

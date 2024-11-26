@@ -1,10 +1,12 @@
 # --- GENERAL --- #
 location            = "North Europe"
 resource_group_name = "transit-vnet-common"
-name_prefix         = "example-"
+name_prefix         = "MLZ-Dev-"
 tags = {
-  "CreatedBy"   = "Palo Alto Networks"
+  "CreatedBy"   = "reyesga"
   "CreatedWith" = "Terraform"
+  "Environment" = "Development"
+  "Usage"       = "MLZ"
 }
 
 

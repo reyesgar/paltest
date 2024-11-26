@@ -1,5 +1,5 @@
 # --- GENERAL --- #
-location            = "North Europe"
+location            = "eastus"
 resource_group_name = "transit-vnet-common"
 name_prefix         = "MLZ-Dev-"
 tags = {

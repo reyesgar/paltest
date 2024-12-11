@@ -14,7 +14,7 @@ tags = {
 vnets = {
   "transit" = {
     name          = "transit"
-    address_space = ["10.0.0.0/25"]
+    address_space = ["140.68.87.0/25"]
     network_security_groups = {
       "management" = {
         name = "mgmt-nsg"
@@ -26,7 +26,7 @@ vnets = {
             protocol                   = "Tcp"
             source_address_prefixes    = ["1.2.3.4"] # TODO: whitelist public IP addresses that will be used to manage the appliances
             source_port_range          = "*"
-            destination_address_prefix = "10.0.0.0/28"
+            destination_address_prefix = "140.68.87.0/28"
             destination_port_ranges    = ["22", "443"]
           }
         }
@@ -40,11 +40,11 @@ vnets = {
         name = "mgmt-rt"
         routes = {
           "private_blackhole" = {
-            address_prefix = "10.0.0.16/28"
+            address_prefix = "140.68.87.16/28"
             next_hop_type  = "None"
           }
           "public_blackhole" = {
-            address_prefix = "10.0.0.32/28"
+            address_prefix = "140.68.87.32/28"
             next_hop_type  = "None"
           }
         }
@@ -55,14 +55,14 @@ vnets = {
           "default" = {
             address_prefix         = "0.0.0.0/0"
             next_hop_type          = "VirtualAppliance"
-            next_hop_in_ip_address = "10.0.0.30"
+            next_hop_in_ip_address = "140.68.87.30"
           }
           "mgmt_blackhole" = {
-            address_prefix = "10.0.0.0/28"
+            address_prefix = "140.68.87.0/28"
             next_hop_type  = "None"
           }
           "public_blackhole" = {
-            address_prefix = "10.0.0.32/28"
+            address_prefix = "140.68.87.32/28"
             next_hop_type  = "None"
           }
         }
@@ -71,11 +71,11 @@ vnets = {
         name = "public-rt"
         routes = {
           "mgmt_blackhole" = {
-            address_prefix = "10.0.0.0/28"
+            address_prefix = "140.68.87.0/28"
             next_hop_type  = "None"
           }
           "private_blackhole" = {
-            address_prefix = "10.0.0.16/28"
+            address_prefix = "140.68.87.16/28"
             next_hop_type  = "None"
           }
         }
@@ -91,18 +91,18 @@ vnets = {
       }
       "private" = {
         name             = "private-snet"
-        address_prefixes = ["10.0.0.16/28"]
+        address_prefixes = ["140.68.87.16/28"]
         route_table      = "private"
       }
       "public" = {
         name                   = "public-snet"
-        address_prefixes       = ["10.0.0.32/28"]
+        address_prefixes       = ["140.68.87.32/28"]
         network_security_group = "public"
         route_table            = "public"
       }
       "appgw" = {
         name             = "appgw-snet"
-        address_prefixes = ["10.0.0.48/28"]
+        address_prefixes = ["140.68.87.48/28"]
       }
     }
   }
@@ -136,7 +136,7 @@ load_balancers = {
       "ha-ports" = {
         vnet_key           = "transit"
         subnet_key         = "private"
-        private_ip_address = "10.0.0.30"
+        private_ip_address = "140.68.87.30"
         in_rules = {
           HA_PORTS = {
             port     = 0

@@ -63,14 +63,8 @@ resource "azurerm_virtual_machine" "this" {
 
   network_interface_ids = [for v in var.interfaces : azurerm_network_interface.this[v.name].id]
 
-  resource "azurerm_image" "example" {
-  name                      = "paloimage"
-  location                  = "eastus"
-  resource_group_name       = "AVDRG01"
-  #source_virtual_machine_id = data.azurerm_virtual_machine.example.id
-}
   storage_image_reference {
-    id        = var.custom_image_id
+    id        = "/subscriptions/0a4a2672-4c64-4162-ba3c-01bb6c1ac822/resourceGroups/eprovider/providers/Microsoft.Compute/disks/palodisk-managed-disk"
     publisher = var.custom_image_id == null ? var.img_publisher : null
     offer     = var.custom_image_id == null ? var.img_offer : null
     sku       = var.custom_image_id == null ? var.img_sku : null
